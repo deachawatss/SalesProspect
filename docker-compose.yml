@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: prospect-sync-backend
+    ports:
+      - "5102:5102"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5102
+      - ConnectionStrings__Tfclive=Server=192.168.0.86,49381;Database=TFCLIVE;User Id=dvl;Password=Pr0gr@mm1ng;TrustServerCertificate=True;
+      - ConnectionStrings__Sr=Server=192.168.17.15;Database=srm_db;User Id=dvl;Password=Pr0gr@mm1ng;TrustServerCertificate=True;
+      - Jwt__Secret=your-256-bit-secret-key-here-minimum-32-characters
+      - Jwt__Issuer=ProspectSync
+      - Jwt__Audience=ProspectSyncUsers
+    networks:
+      - prospect-sync-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: prospect-sync-frontend
+    ports:
+      - "3020:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:5102/api
+    networks:
+      - prospect-sync-network
+
+networks:
+  prospect-sync-network:
+    driver: bridge
+
+volumes:
+  sqlserver-data: 

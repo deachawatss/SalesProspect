@@ -1,0 +1,25 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy csproj and restore dependencies
+COPY backend/*.csproj ./
+RUN dotnet restore
+
+# Copy everything else and build
+COPY backend/. ./
+RUN dotnet publish -c Release -o /app/publish
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish .
+
+# Expose port
+EXPOSE 5102
+
+# Set environment variable for ASP.NET Core
+ENV ASPNETCORE_URLS=http://+:5102
+ENV ASPNETCORE_ENVIRONMENT=Production
+
+ENTRYPOINT ["dotnet", "ProspectSync.Api.dll"] 

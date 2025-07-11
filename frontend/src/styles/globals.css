@@ -1,0 +1,664 @@
+/**
+ * BandCI Global Styles for ProspectSync
+ * Base styles and global CSS for BandCI theme system
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   CSS Variables - BandCI Theme System
+   ========================================================================== */
+
+:root {
+  /* Brown Color Scale - Primary Brand Colors */
+  --color-brown-25: #fdfcfb;
+  --color-brown-50: #faf7f5;
+  --color-brown-75: #f8f4f1;
+  --color-brown-100: #f5ede8;
+  --color-brown-200: #ead9d0;
+  --color-brown-300: #dcc0b0;
+  --color-brown-400: #c89e88;
+  --color-brown-500: #b8806a;
+  --color-brown-600: #a66b56;
+  --color-brown-700: #8d5a49;
+  --color-brown-800: #744c3f;
+  --color-brown-900: #5d4037;
+
+  /* Semantic Colors */
+  --color-text-primary: #3e2723;
+  --color-text-secondary: #5d4037;
+  --color-text-muted: #8d5a49;
+  --color-text-disabled: #a66b56;
+
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f5f5f5;
+  --color-background-muted: #faf7f5;
+  --color-background-elevated: #ffffff;
+
+  --color-border-primary: #ead9d0;
+  --color-border-secondary: #dcc0b0;
+  --color-border-muted: #f5ede8;
+  --color-border-focus: #8d5a49;
+
+  /* Prospect Status Colors */
+  --color-status-clean: #dcc0b0;
+  --color-status-complete: #c89e88;
+  --color-status-working: #b8806a;
+  --color-status-highlight: #8d5a49;
+
+  /* Spacing Scale */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.25rem;
+  --spacing-2xl: 1.5rem;
+  --spacing-3xl: 2rem;
+  --spacing-4xl: 2.5rem;
+  --spacing-5xl: 3rem;
+
+  /* Typography */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(93, 64, 55, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(93, 64, 55, 0.1), 0 2px 4px -1px rgba(93, 64, 55, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(93, 64, 55, 0.1), 0 4px 6px -2px rgba(93, 64, 55, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(93, 64, 55, 0.1), 0 10px 10px -5px rgba(93, 64, 55, 0.04);
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+
+  /* Border Radius */
+  --border-radius-sm: 0.125rem;
+  --border-radius-md: 0.375rem;
+  --border-radius-lg: 0.5rem;
+  --border-radius-xl: 0.75rem;
+  --border-radius-2xl: 1rem;
+  --border-radius-full: 9999px;
+}
+
+/* Dark Theme Override */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background-primary: #1a1a1a;
+    --color-background-secondary: #2a2a2a;
+    --color-background-muted: #3a3a3a;
+    --color-background-elevated: #2a2a2a;
+    
+    --color-text-primary: #f5ede8;
+    --color-text-secondary: #ead9d0;
+    --color-text-muted: #dcc0b0;
+    --color-text-disabled: #b8806a;
+    
+    --color-border-primary: #404040;
+    --color-border-secondary: #525252;
+    --color-border-muted: #2a2a2a;
+    --color-border-focus: #dcc0b0;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* ==========================================================================
+   Base Styles
+   ========================================================================== */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', 'Helvetica Neue', sans-serif;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-primary);
+    background-color: var(--color-background-secondary);
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  h1 {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  h2 {
+    font-size: var(--font-size-3xl);
+  }
+
+  h3 {
+    font-size: var(--font-size-2xl);
+  }
+
+  h4 {
+    font-size: var(--font-size-xl);
+  }
+
+  h5 {
+    font-size: var(--font-size-lg);
+  }
+
+  h6 {
+    font-size: var(--font-size-base);
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  a {
+    color: var(--color-brown-700);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  a:hover {
+    color: var(--color-brown-900);
+    text-decoration: underline;
+  }
+
+  /* Focus Styles */
+  :focus {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+
+  /* Remove default focus for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ==========================================================================
+   Component Styles
+   ========================================================================== */
+
+@layer components {
+  /* ProspectSync Container */
+  .prospect-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* ProspectSync Header */
+  .prospect-header {
+    background-color: var(--color-brown-900);
+    color: white;
+    padding: var(--spacing-lg) 0;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .prospect-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prospect-header-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+  }
+
+  .prospect-header h1 {
+    color: white;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* ProspectSync Navigation */
+  .prospect-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+  }
+
+  .prospect-nav-item {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
+  }
+
+  .prospect-nav-item:hover,
+  .prospect-nav-item.active {
+    color: white;
+    text-decoration: none;
+  }
+
+  /* ProspectSync Main Content */
+  .prospect-main {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .prospect-section {
+    margin-bottom: var(--spacing-5xl);
+  }
+
+  .prospect-section-title {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  /* ProspectSync Grid */
+  .prospect-grid {
+    display: grid;
+    gap: var(--spacing-2xl);
+  }
+
+  .prospect-grid-1 {
+    grid-template-columns: 1fr;
+  }
+
+  .prospect-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .prospect-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .prospect-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Responsive Grid */
+  @media (max-width: 1024px) {
+    .prospect-grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .prospect-grid-2,
+    .prospect-grid-3,
+    .prospect-grid-4 {
+      grid-template-columns: 1fr;
+    }
+    
+    .prospect-container {
+      padding: 0 var(--spacing-md);
+    }
+    
+    .prospect-header {
+      padding: var(--spacing-md) 0;
+    }
+    
+    .prospect-header-content {
+      flex-direction: column;
+      gap: var(--spacing-md);
+      align-items: flex-start;
+    }
+    
+    .prospect-nav {
+      gap: var(--spacing-md);
+    }
+    
+    .prospect-main {
+      padding: var(--spacing-2xl) 0;
+    }
+  }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+@layer utilities {
+  /* Text Colors */
+  .text-primary { color: var(--color-text-primary); }
+  .text-secondary { color: var(--color-text-secondary); }
+  .text-muted { color: var(--color-text-muted); }
+  .text-disabled { color: var(--color-text-disabled); }
+
+  /* Background Colors */
+  .bg-primary { background-color: var(--color-background-primary); }
+  .bg-secondary { background-color: var(--color-background-secondary); }
+  .bg-muted { background-color: var(--color-background-muted); }
+  .bg-elevated { background-color: var(--color-background-elevated); }
+
+  /* Border Colors */
+  .border-primary { border-color: var(--color-border-primary); }
+  .border-secondary { border-color: var(--color-border-secondary); }
+  .border-muted { border-color: var(--color-border-muted); }
+  .border-focus { border-color: var(--color-border-focus); }
+
+  /* Shadows */
+  .shadow-card { box-shadow: var(--shadow-md); }
+  .shadow-modal { box-shadow: var(--shadow-xl); }
+  .shadow-subtle { box-shadow: var(--shadow-sm); }
+
+  /* Transitions */
+  .transition-fast { transition: var(--transition-fast); }
+  .transition-normal { transition: var(--transition-normal); }
+  .transition-slow { transition: var(--transition-slow); }
+
+  /* Animations */
+  .animate-flash { animation: flash 2s infinite; }
+  .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+  /* Responsive Utilities */
+  .hide-mobile { display: block; }
+  .show-mobile { display: none; }
+
+  @media (max-width: 768px) {
+    .hide-mobile { display: none; }
+    .show-mobile { display: block; }
+  }
+}
+
+/* ==========================================================================
+   Animation Keyframes
+   ========================================================================== */
+
+@keyframes flash {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.5; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Ant Design Overrides
+   ========================================================================== */
+
+/* Custom Ant Design theme integration */
+.ant-layout {
+  background-color: var(--color-background-secondary);
+}
+
+.ant-layout-header {
+  background-color: var(--color-brown-900);
+  padding: 0 var(--spacing-lg);
+}
+
+.ant-layout-content {
+  background-color: var(--color-background-secondary);
+}
+
+.ant-input {
+  border-color: var(--color-border-primary);
+}
+
+.ant-input:focus,
+.ant-input-focused {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 2px rgba(141, 90, 73, 0.2);
+}
+
+.ant-select {
+  border-color: var(--color-border-primary);
+}
+
+.ant-select:focus,
+.ant-select-focused {
+  border-color: var(--color-border-focus);
+}
+
+.ant-btn-primary {
+  background-color: var(--color-brown-900);
+  border-color: var(--color-brown-900);
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--color-brown-800);
+  border-color: var(--color-brown-800);
+}
+
+.ant-typography {
+  color: var(--color-text-primary);
+}
+
+/* Custom ProspectSearch AutoComplete Styles */
+.prospect-search-autocomplete {
+  position: relative;
+}
+
+.prospect-search-autocomplete .ant-select-selector {
+  border-color: #ead9d0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(93, 64, 55, 0.1) !important;
+  padding-left: 40px !important;
+  min-height: 40px !important;
+}
+
+.prospect-search-autocomplete .ant-select-selector:hover,
+.prospect-search-autocomplete .ant-select-selector:focus,
+.prospect-search-autocomplete.ant-select-focused .ant-select-selector {
+  border-color: #dcc0b0 !important;
+  box-shadow: 0 0 0 2px rgba(141, 90, 73, 0.2) !important;
+}
+
+.prospect-search-autocomplete .ant-select-selection-search {
+  left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.prospect-search-autocomplete .ant-select-selection-search-input {
+  padding-left: 40px !important;
+  color: #3e2723 !important;
+  font-weight: 500 !important;
+  height: 38px !important;
+}
+
+.prospect-search-autocomplete .ant-select-selection-search-input::placeholder {
+  color: #8d5a49 !important;
+  font-weight: 400 !important;
+}
+
+.prospect-search-autocomplete .ant-select-selection-placeholder {
+  padding-left: 40px !important;
+  color: #8d5a49 !important;
+  font-weight: 400 !important;
+  line-height: 38px !important;
+}
+
+/* Search icon overlay */
+.prospect-search-autocomplete::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath fill='%238d5a49' d='M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0 0 11.6 0l43.6-43.5a8.2 8.2 0 0 0 0-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z'/%3E%3C/svg%3E");
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Dropdown styling */
+.prospect-search-dropdown .ant-select-item {
+  padding: 8px 12px !important;
+}
+
+.prospect-search-dropdown .ant-select-item-option-selected {
+  background-color: #f5ede8 !important;
+}
+
+.prospect-search-dropdown .ant-select-item-option-active {
+  background-color: #faf7f5 !important;
+}
+
+/* ==========================================================================
+   Custom Section Spacing
+   ========================================================================== */
+
+/* Custom spacing for sections */
+.prospect-section-spacing {
+  margin-top: 3rem !important; /* 48px spacing */
+}
+
+/* Ensure proper spacing between search and how-it-works sections */
+.prospect-section .prospect-card:first-child {
+  margin-bottom: 3rem !important;
+}
+
+/* How It Works Step Numbers */
+.how-it-works-number {
+  width: 60px !important;
+  height: 60px !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 1.5rem !important;
+  font-weight: 900 !important; /* Extra bold */
+  color: white !important;
+  margin: 0 auto 1rem auto !important; /* Consistent bottom margin */
+  box-shadow: 0 4px 8px rgba(93, 64, 55, 0.2) !important;
+  border: 2px solid rgba(255, 255, 255, 0.1) !important;
+  line-height: 1 !important; /* Ensure consistent line height */
+}
+
+/* Container for number alignment */
+.how-it-works-step {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  min-height: 200px !important; /* Ensure consistent height */
+}
+
+.how-it-works-step .number-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 80px !important; /* Fixed height for alignment */
+  margin-bottom: 1rem !important;
+}
+
+/* ==========================================================================
+   Print Styles
+   ========================================================================== */
+
+@media print {
+  * {
+    color: black !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  .prospect-header,
+  .prospect-nav,
+  .hide-print {
+    display: none !important;
+  }
+
+  .prospect-main {
+    padding: 0 !important;
+  }
+
+  .prospect-card {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Card shadow for depth */
+.prospect-card {
+  box-shadow: 0 6px 24px rgba(93, 64, 55, 0.10), 0 1.5px 4px rgba(93, 64, 55, 0.06) !important;
+  transition: box-shadow 0.2s;
+}
+
+/* Larger, bolder headings */
+.prospect-main-title {
+  font-size: 2.5rem !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.5px;
+}
+.prospect-section-title {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+}
+
+/* Step circle hover effect */
+.how-it-works-number {
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.how-it-works-number:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 24px rgba(93, 64, 55, 0.18);
+}
+
+/* Responsive improvements */
+@media (max-width: 900px) {
+  .prospect-section-spacing {
+    margin-top: 2rem !important;
+  }
+  .prospect-card {
+    padding: 1rem !important;
+  }
+  .how-it-works-step {
+    min-height: 140px !important;
+  }
+}
+@media (max-width: 600px) {
+  .prospect-section-spacing {
+    margin-top: 1rem !important;
+  }
+  .prospect-card {
+    padding: 0.5rem !important;
+  }
+  .how-it-works-step {
+    min-height: 100px !important;
+  }
+  .how-it-works-number {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.1rem !important;
+  }
+}
