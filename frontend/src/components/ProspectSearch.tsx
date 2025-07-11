@@ -50,7 +50,7 @@ const ProspectSearch: React.FC = () => {
         allowClear
         size="large"
         notFoundContent={isFetching ? 'Searching...' : 'No prospects found'}
-        popupClassName="prospect-search-dropdown"
+        classNames={{ popup: { root: 'prospect-search-dropdown' } }}
         filterOption={false}
         style={{
           width: '100%',

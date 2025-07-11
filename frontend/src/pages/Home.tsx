@@ -20,7 +20,7 @@ const Home: React.FC = () => {
               borderRadius: '16px',
               border: '1px solid #ead9d0'
             }}
-            bodyStyle={{ padding: '32px' }}
+            styles={{ body: { padding: '32px' } }}
           >
             <div className="text-center mb-8">
               <div className="mb-6">
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
               border: '1px solid #ead9d0',
               backgroundColor: '#faf7f5'
             }}
-            bodyStyle={{ padding: '40px 32px' }}
+            styles={{ body: { padding: '40px 32px' } }}
           >
             <Title level={2} className="prospect-section-title text-center mb-8" style={{ color: '#5d4037' }}>
               How It Works

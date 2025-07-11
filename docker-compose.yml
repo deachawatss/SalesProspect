@@ -28,8 +28,6 @@ services:
       - "3020:80"
     depends_on:
       - backend
-    environment:
-      - VITE_API_URL=http://localhost:5102/api
     networks:
       - prospect-sync-network
 
