@@ -108,7 +108,7 @@ const Home: React.FC = () => {
                   </div>
                   <Title level={4} style={{ color: '#5d4037', marginBottom: '8px' }}>Transfer</Title>
                   <Text style={{ color: '#8d5a49' }}>
-                    Transfer prospect data to SR reporting system
+                    Transfer prospect data to SR system
                   </Text>
                 </div>
               </Col>
