@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProspectSync.Api.Models;
 using ProspectSync.Api.Services;
 
 namespace ProspectSync.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/prospects")]
     public class ProspectController : ControllerBase
