@@ -96,6 +96,28 @@ builder.Services.AddScoped<IActiveDirectoryService, ActiveDirectoryService>();
 
 var app = builder.Build();
 
+// Add startup logging
+var logger = app.Services.GetRequiredService<ILogger<Program>>();
+logger.LogInformation("=== Application Starting ===");
+logger.LogInformation("Environment: {Environment}", app.Environment.EnvironmentName);
+
+// Verify critical configurations
+try
+{
+    var configuration = app.Services.GetRequiredService<IConfiguration>();
+    var tfcliveConn = configuration.GetConnectionString("Tfclive");
+    var srConn = configuration.GetConnectionString("Sr");
+    var jwtSecret = configuration["Jwt:Secret"];
+    
+    logger.LogInformation("Configuration check - Tfclive connection configured: {HasTfclive}", !string.IsNullOrEmpty(tfcliveConn));
+    logger.LogInformation("Configuration check - Sr connection configured: {HasSr}", !string.IsNullOrEmpty(srConn));
+    logger.LogInformation("Configuration check - JWT secret configured: {HasJwt}", !string.IsNullOrEmpty(jwtSecret));
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "Error checking configuration during startup");
+}
+
 // Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {

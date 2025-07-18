@@ -23,7 +23,7 @@ services:
       context: .
       dockerfile: Dockerfile.frontend
       args:
-        - VITE_API_URL=${VITE_API_URL}
+        - VITE_API_URL=http://192.168.0.21:5102
     container_name: prospect-sync-frontend-prod
     restart: unless-stopped
     ports:

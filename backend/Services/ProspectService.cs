@@ -21,6 +21,26 @@ namespace ProspectSync.Api.Services
         {
             _configuration = configuration;
             _logger = logger;
+            
+            // Log initialization and verify connection strings
+            _logger.LogInformation("ProspectService initializing...");
+            
+            var tfcliveConn = _configuration.GetConnectionString("Tfclive");
+            var srConn = _configuration.GetConnectionString("Sr");
+            
+            if (string.IsNullOrEmpty(tfcliveConn))
+            {
+                _logger.LogError("Tfclive connection string is not configured");
+                throw new InvalidOperationException("Tfclive connection string is required");
+            }
+            
+            if (string.IsNullOrEmpty(srConn))
+            {
+                _logger.LogError("Sr connection string is not configured");
+                throw new InvalidOperationException("Sr connection string is required");
+            }
+            
+            _logger.LogInformation("ProspectService initialized successfully with database connections");
         }
 
         private SqlConnection CreateTfcliveConnection()
