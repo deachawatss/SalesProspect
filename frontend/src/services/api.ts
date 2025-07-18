@@ -42,19 +42,19 @@ api.interceptors.response.use(
 
 export const prospectApi = {
   search: async (query: string): Promise<ProspectSearchResult[]> => {
-    const response = await api.get<ProspectSearchResult[]>('/prospects/search', {
+    const response = await api.get<ProspectSearchResult[]>('/api/prospects/search', {
       params: { q: query },
     });
     return response.data;
   },
 
   getStatus: async (key: string): Promise<ProspectStatus> => {
-    const response = await api.get<ProspectStatus>(`/prospects/${key}/status`);
+    const response = await api.get<ProspectStatus>(`/api/prospects/${key}/status`);
     return response.data;
   },
 
   transfer: async (key: string): Promise<TransferResult> => {
-    const response = await api.post<TransferResult>(`/prospects/${key}/transfer`);
+    const response = await api.post<TransferResult>(`/api/prospects/${key}/transfer`);
     return response.data;
   },
 };
