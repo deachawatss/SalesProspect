@@ -23,6 +23,7 @@ services:
       - ActiveDirectory__Server=${ACTIVEDIRECTORY__SERVER}
       - ActiveDirectory__Domain=${ACTIVEDIRECTORY__DOMAIN}
       - ActiveDirectory__Timeout=${ACTIVEDIRECTORY__TIMEOUT}
+      - AUTHORIZATION__ALLOWEDUSERS=${AUTHORIZATION__ALLOWEDUSERS}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5102/health"]
       interval: 30s
