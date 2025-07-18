@@ -52,7 +52,11 @@ builder.Services.Configure<JwtSettings>(jwtSection);
 
 // Configure JWT Authentication
 var jwtSettings = jwtSection.Get<JwtSettings>();
-var key = Encoding.ASCII.GetBytes(jwtSettings!.Secret);
+if (jwtSettings == null || string.IsNullOrEmpty(jwtSettings.Secret))
+{
+    throw new Exception("JWT Secret not configured");
+}
+var key = Encoding.ASCII.GetBytes(jwtSettings.Secret);
 
 builder.Services.AddAuthentication(x =>
 {

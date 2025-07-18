@@ -9,19 +9,6 @@ services:
       - "5102:5102"
     env_file:
       - .env.prod
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
-      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
-      - ConnectionStrings__Tfclive=${CONNECTIONSTRINGS__TFCLIVE}
-      - ConnectionStrings__Sr=${CONNECTIONSTRINGS__SR}
-      - Jwt__Secret=${JWT__SECRET}
-      - Jwt__Issuer=${JWT__ISSUER}
-      - Jwt__Audience=${JWT__AUDIENCE}
-      - Jwt__ExpirationInMinutes=${JWT__EXPIRATIONINMINUTES}
-      - ActiveDirectory__Server=${ACTIVEDIRECTORY__SERVER}
-      - ActiveDirectory__Domain=${ACTIVEDIRECTORY__DOMAIN}
-      - ActiveDirectory__Timeout=${ACTIVEDIRECTORY__TIMEOUT}
-      - AUTHORIZATION__ALLOWEDUSERS=${AUTHORIZATION__ALLOWEDUSERS}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5102/health"]
       interval: 30s
@@ -41,13 +28,11 @@ services:
       - "3020:3020"
     env_file:
       - .env.prod
-    environment:
-      - VITE_API_URL=${VITE_API_URL}
     depends_on:
       backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      test: ["CMD", "curl", "-f", "http://localhost:3020"]
       interval: 30s
       timeout: 10s
       retries: 3
