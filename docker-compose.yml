@@ -22,6 +22,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
+      args:
+        - VITE_API_URL=${VITE_API_URL}
     container_name: prospect-sync-frontend-prod
     restart: unless-stopped
     ports:
