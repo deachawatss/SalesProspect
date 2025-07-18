@@ -84,6 +84,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } else {
       // Clear invalid/expired token
       logout();
+      return;
     }
 
     // Set up interval to check token expiration every minute
