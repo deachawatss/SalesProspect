@@ -2,9 +2,12 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ConfigProvider } from 'antd';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import ProspectPage from './pages/ProspectPage';
+import Login from './pages/Login';
 import './styles/globals.css';
 
 // Create a client
@@ -20,7 +23,8 @@ const queryClient = new QueryClient({
 const App: React.FC = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ConfigProvider
+      <AuthProvider>
+        <ConfigProvider
         theme={{
           token: {
             // BandCI Brown Primary Colors
@@ -182,16 +186,22 @@ const App: React.FC = () => {
           },
         }}
       >
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="prospect/:key" element={<ProspectPage />} />
-            </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </ConfigProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }>
+                <Route index element={<Home />} />
+                <Route path="prospect/:key" element={<ProspectPage />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </ConfigProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

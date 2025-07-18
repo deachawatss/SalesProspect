@@ -86,13 +86,43 @@ The application performs cross-database operations between TFCLIVE and SR databa
 - **Status Check**: Verify existence in both databases
 - **Transfer**: Transactional copy from TFCLIVE to SR with rollback on failure
 
+## Authentication & Security
+
+### Active Directory Integration
+- **Login System**: Full Active Directory authentication with 1-week JWT token expiration
+- **LDAP Support**: Primary authentication via LDAP binding (ldap://192.168.0.1)
+- **Fallback Authentication**: PrincipalContext and test users for development
+- **Token Management**: Automatic token validation and refresh with 1-week expiration
+- **Protected Routes**: All application routes require authentication
+- **User Management**: Role-based access (Sales, Admin) based on AD group membership
+- **Domain**: NWFTH.com with service account authentication
+
+### Security Features
+- **JWT Authentication**: 1-week token expiration (10,080 minutes)
+- **Rate Limiting**: Transfer operations limited to 10 per minute, general API calls to 100 per minute
+- **SQL Injection Prevention**: Parameterized queries throughout
+- **CORS**: Configured for frontend origins
+- **Protected API**: All prospect operations require valid JWT token
+
+### Login Implementation
+- **Frontend**: React login page with company logo and clean interface
+- **Backend**: LDAP-first authentication with Active Directory service fallback
+- **Token Storage**: LocalStorage with automatic expiration handling
+- **Auto-Logout**: Automatic logout on token expiration or invalid responses
+- **UI**: Company logo integration with professional styling
+- **Labels**: Simplified username/password labels (removed "Domain" prefix)
+
 ## Important Notes
 
-- Authentication is currently disabled in Program.cs (lines 106-107 commented out)
+- Authentication is now enabled in Program.cs
+- LDAP configuration points to ldap://192.168.0.1 with NWFTH.com domain
 - Database connection strings contain hardcoded credentials in configuration files
 - Rate limiting is configured for transfer operations to prevent abuse
 - All database operations use transactions for data consistency
 - Frontend uses Ant Design for UI components and TanStack Query for state management
+- Active Directory service includes Windows-only functionality warnings (expected for Linux development)
+- Application header displays "Sales Prospect Management System"
+- Login page includes company logo and simplified interface
 
 ## Testing
 

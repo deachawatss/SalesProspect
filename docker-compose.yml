@@ -5,17 +5,30 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    container_name: prospect-sync-backend
+    container_name: prospect-sync-backend-prod
+    restart: unless-stopped
     ports:
       - "5102:5102"
+    env_file:
+      - .env.prod
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5102
-      - ConnectionStrings__Tfclive=Server=192.168.0.86,49381;Database=TFCLIVE;User Id=dvl;Password=Pr0gr@mm1ng;TrustServerCertificate=True;
-      - ConnectionStrings__Sr=Server=192.168.17.15;Database=srm_db;User Id=dvl;Password=Pr0gr@mm1ng;TrustServerCertificate=True;
-      - Jwt__Secret=your-256-bit-secret-key-here-minimum-32-characters
-      - Jwt__Issuer=ProspectSync
-      - Jwt__Audience=ProspectSyncUsers
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=${ASPNETCORE_URLS}
+      - ConnectionStrings__Tfclive=${CONNECTIONSTRINGS__TFCLIVE}
+      - ConnectionStrings__Sr=${CONNECTIONSTRINGS__SR}
+      - Jwt__Secret=${JWT__SECRET}
+      - Jwt__Issuer=${JWT__ISSUER}
+      - Jwt__Audience=${JWT__AUDIENCE}
+      - Jwt__ExpirationInMinutes=${JWT__EXPIRATIONINMINUTES}
+      - ActiveDirectory__Server=${ACTIVEDIRECTORY__SERVER}
+      - ActiveDirectory__Domain=${ACTIVEDIRECTORY__DOMAIN}
+      - ActiveDirectory__Timeout=${ACTIVEDIRECTORY__TIMEOUT}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5102/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     networks:
       - prospect-sync-network
 
@@ -23,17 +36,26 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    container_name: prospect-sync-frontend
+    container_name: prospect-sync-frontend-prod
+    restart: unless-stopped
     ports:
       - "3020:80"
+    env_file:
+      - .env.prod
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks:
       - prospect-sync-network
 
 networks:
   prospect-sync-network:
-    driver: bridge
-
-volumes:
-  sqlserver-data: 
+    driver: bridge 

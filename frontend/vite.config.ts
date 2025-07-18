@@ -6,11 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5102',
-        changeOrigin: true,
-      },
-    },
   },
+  envDir: '../', // Load environment variables from parent directory
 })

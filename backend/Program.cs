@@ -1,15 +1,21 @@
-using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ProspectSync.Api.Configuration;
 using ProspectSync.Api.Services;
 using System.Text;
+using DotNetEnv;
+
+// Load environment variables from root .env file
+Env.Load("../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Add health checks
+builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -72,24 +78,17 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://192.168.0.21:3020", "http://192.168.0.21:5102")
+            builder.WithOrigins("http://localhost:5173", "http://localhost:3000", "http://localhost:3001", "http://192.168.0.21:3020", "http://192.168.0.21:5102")
                    .AllowAnyMethod()
                    .AllowAnyHeader()
                    .AllowCredentials();
         });
 });
 
-// Configure Rate Limiting
-builder.Services.AddMemoryCache();
-builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
-builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
-builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
-builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
-builder.Services.AddInMemoryRateLimiting();
 
 // Register application services
 builder.Services.AddScoped<IProspectService, ProspectService>();
+builder.Services.AddScoped<IActiveDirectoryService, ActiveDirectoryService>();
 
 var app = builder.Build();
 
@@ -100,11 +99,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
-app.UseIpRateLimiting();
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
+
+// Map health check endpoint
+app.MapHealthChecks("/health");
 
 app.Run();
