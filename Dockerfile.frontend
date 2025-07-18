@@ -17,7 +17,7 @@ RUN npm ci
 COPY frontend/. .
 
 # Build the app
-RUN npm run build
+RUN VITE_API_URL=${VITE_API_URL} npm run build
 
 # Production stage
 FROM nginx:alpine
