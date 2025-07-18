@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -40,7 +38,7 @@ services:
     container_name: prospect-sync-frontend-prod
     restart: unless-stopped
     ports:
-      - "3020:80"
+      - "3020:3020"
     env_file:
       - .env.prod
     environment:

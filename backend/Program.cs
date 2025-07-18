@@ -5,8 +5,12 @@ using ProspectSync.Api.Services;
 using System.Text;
 using DotNetEnv;
 
-// Load environment variables from root .env file
-Env.Load("../.env");
+// Load environment variables from root .env file for development
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+if (environment == "Development")
+{
+    Env.Load("../.env");
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
